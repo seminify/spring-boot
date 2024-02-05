@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.extern.log4j.Log4j2;
@@ -83,5 +84,25 @@ public class MemoRepositoryTest {
         var result2 = memoRepository.findAll(pageable2);
         result1.forEach(log::info);
         result2.forEach(log::info);
+    }
+
+    @Test
+    public void testQueryMethod() {
+        var list = memoRepository.findByMnoBetweenOrderByMnoDesc(70L, 80L);
+        list.forEach(log::info);
+    }
+
+    @Test
+    public void testQueryMethodWithPageable() {
+        var pageable = PageRequest.of(0, 10, Sort.by("mno").descending());
+        var result = memoRepository.findByMnoBetween(10L, 50L, pageable);
+        result.forEach(log::info);
+    }
+
+    @Test
+    @Commit
+    @Transactional
+    public void testDeleteQueryMethod() {
+        memoRepository.deleteByMnoLessThan(10L);
     }
 }
