@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.seminify.app.entity.Memo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.extern.log4j.Log4j2;
@@ -54,5 +55,19 @@ public class MemoRepositoryTest {
     public void testDelete() {
         var mno = 100L;
         memoRepository.deleteById(mno);
+    }
+
+    @Test
+    public void testPageDefault() {
+        var pageable = PageRequest.of(0, 10);
+        var result = memoRepository.findAll(pageable);
+        log.info(result);
+        log.info("Total Pages : " + result.getTotalPages());
+        log.info("Total Count : " + result.getTotalElements());
+        log.info("Page Number : " + result.getNumber());
+        log.info("Page Size : " + result.getSize());
+        log.info("Has Next Page? : " + result.hasNext());
+        log.info("First Page? : " + result.isFirst());
+        result.forEach(log::info);
     }
 }
