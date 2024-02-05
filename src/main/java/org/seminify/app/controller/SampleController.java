@@ -21,7 +21,7 @@ public class SampleController {
         log.info("ex1");
     }
 
-    @GetMapping("ex2")
+    @GetMapping({ "ex2", "exLink" })
     public void exModel(Model model) {
         log.info("exModel");
         var list = IntStream.rangeClosed(1, 20).asLongStream().mapToObj(i -> {
