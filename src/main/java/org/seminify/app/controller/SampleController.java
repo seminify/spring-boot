@@ -46,4 +46,9 @@ public class SampleController {
         redirectAttributes.addFlashAttribute("dto", dto);
         return "redirect:/sample/ex3";
     }
+
+    @GetMapping({ "exLayout1", "exLayout2" })
+    public void exLayout1() {
+        log.info("exLayout1");
+    }
 }
