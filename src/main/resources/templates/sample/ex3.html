@@ -6,10 +6,11 @@
     <title>Title</title>
   </head>
   <body>
-    <ul>
-      <th:block th:each="dto : ${list}">
-        <li th:text="${dto.sno % 5 == 0} ? ${dto.sno} : ${dto.first}"></li>
-      </th:block>
-    </ul>
+    <h1 th:text="${result}"></h1>
+    <h1 th:text="${dto}"></h1>
+    <script th:inline="javascript">
+      const msg=[[${result}]]
+      const dto=[[${dto}]]
+    </script>
   </body>
 </html>
