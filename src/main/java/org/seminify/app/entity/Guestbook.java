@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 @Entity
@@ -22,8 +23,10 @@ public class Guestbook extends BaseEntity {
     @Id
     private Long gno;
     @Column(length = 100, nullable = false)
+    @Setter
     private String title;
     @Column(length = 1500, nullable = false)
+    @Setter
     private String content;
     @Column(length = 50, nullable = false)
     private String writer;
