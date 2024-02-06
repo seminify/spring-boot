@@ -66,6 +66,12 @@
       <button type="button" class="btn btn-danger removeBtn">Remove</button>
       <script th:inline="javascript">
         const actionForm = document.querySelector("form");
+        document.querySelector(".modifyBtn").addEventListener("click", () => {
+          if (!confirm("수정하시겠습니까?")) return;
+          actionForm.action = "/guestbook/modify";
+          actionForm.method = "post";
+          actionForm.submit();
+        });
         document.querySelector(".removeBtn").addEventListener("click", () => {
           actionForm.action = "/guestbook/remove";
           actionForm.method = "post";
