@@ -5,6 +5,8 @@
       <h1 class="mt-4">GuestBook Modify Page</h1>
       <form th:action="@{/guestbook/modify}" th:method="post">
         <input type="hidden" name="page" th:value="${requestDTO.page}" />
+        <input type="hidden" name="type" th:value="${requestDTO.type}" />
+        <input type="hidden" name="keyword" th:value="${requestDTO.keyword}" />
         <div class="form-group">
           <label>Gno</label>
           <input
@@ -73,9 +75,13 @@
           actionForm.submit();
         });
         document.querySelector(".listBtn").addEventListener("click", () => {
-          const pageInfo = document.querySelector("input[name = 'page']");
+          const page = document.querySelector("input[name = 'page']");
+          const type = document.querySelector("input[name = 'type']");
+          const keyword = document.querySelector("input[name = 'keyword']");
           actionForm.replaceChildren();
-          actionForm.append(pageInfo);
+          actionForm.append(page);
+          actionForm.append(type);
+          actionForm.append(keyword);
           actionForm.action = "/guestbook/list";
           actionForm.method = "get";
           console.log(actionForm);
