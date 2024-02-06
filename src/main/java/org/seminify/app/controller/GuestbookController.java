@@ -6,6 +6,7 @@ import org.seminify.app.service.GuestbookService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -45,5 +46,13 @@ public class GuestbookController {
         log.info("list");
         log.info(pageRequestDTO);
         model.addAttribute("result", service.getList(pageRequestDTO));
+    }
+
+    @GetMapping("read")
+    public void read(Long gno, @ModelAttribute("requestDTO") PageRequestDTO requestDTO, Model model) {
+        log.info("read");
+        log.info(gno);
+        var dto = service.read(gno);
+        model.addAttribute("dto", dto);
     }
 }

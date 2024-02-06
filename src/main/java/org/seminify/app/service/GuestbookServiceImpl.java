@@ -38,4 +38,12 @@ public class GuestbookServiceImpl implements GuestbookService {
         Function<Guestbook, GuestbookDTO> fn = this::entityToDTO;
         return new PageResultDTO<>(result, fn);
     }
+
+    @Override
+    public GuestbookDTO read(Long gno) {
+        log.info("read");
+        log.info(gno);
+        var result = repository.findById(gno);
+        return result.isPresent() ? entityToDTO(result.get()) : null;
+    }
 }
