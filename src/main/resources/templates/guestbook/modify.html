@@ -72,6 +72,15 @@
           actionForm.method = "post";
           actionForm.submit();
         });
+        document.querySelector(".listBtn").addEventListener("click", () => {
+          const pageInfo = document.querySelector("input[name = 'page']");
+          actionForm.replaceChildren();
+          actionForm.append(pageInfo);
+          actionForm.action = "/guestbook/list";
+          actionForm.method = "get";
+          console.log(actionForm);
+          actionForm.submit();
+        });
         document.querySelector(".removeBtn").addEventListener("click", () => {
           actionForm.action = "/guestbook/remove";
           actionForm.method = "post";
