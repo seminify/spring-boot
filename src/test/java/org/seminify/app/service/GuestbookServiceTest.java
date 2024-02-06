@@ -31,4 +31,15 @@ public class GuestbookServiceTest {
         resultDTO.getDtoList().forEach(log::info);
         resultDTO.getPageList().forEach(log::info);
     }
+
+    @Test
+    public void testSearch() {
+        var pageRequestDTO = PageRequestDTO.builder().page(1).size(10).type("tc").keyword("한글").build();
+        var resultDTO = guestbookService.getList(pageRequestDTO);
+        log.info("PREV : " + resultDTO.isPrev());
+        log.info("NEXT : " + resultDTO.isNext());
+        log.info("TOTAL : " + resultDTO.getTotalPage());
+        resultDTO.getDtoList().forEach(log::info);
+        resultDTO.getPageList().forEach(log::info);
+    }
 }

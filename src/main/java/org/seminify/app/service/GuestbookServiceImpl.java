@@ -6,9 +6,12 @@ import org.seminify.app.dto.GuestbookDTO;
 import org.seminify.app.dto.PageRequestDTO;
 import org.seminify.app.dto.PageResultDTO;
 import org.seminify.app.entity.Guestbook;
+import org.seminify.app.entity.QGuestbook;
 import org.seminify.app.repository.GuestbookRepository;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import com.querydsl.core.BooleanBuilder;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -18,6 +21,26 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 public class GuestbookServiceImpl implements GuestbookService {
     private final GuestbookRepository repository;
+
+    private BooleanBuilder getSearch(PageRequestDTO requestDTO) {
+        var booleanBuilder = new BooleanBuilder();
+        var type = requestDTO.getType();
+        var keyword = requestDTO.getKeyword();
+        var guestbook = QGuestbook.guestbook;
+        var expression = guestbook.gno.gt(0L);
+        booleanBuilder.and(expression);
+        if (type == null || type.trim().length() == 0)
+            return booleanBuilder;
+        var conditionBuilder = new BooleanBuilder();
+        if (type.contains("t"))
+            conditionBuilder.or(guestbook.title.contains(keyword));
+        if (type.contains("c"))
+            conditionBuilder.or(guestbook.content.contains(keyword));
+        if (type.contains("w"))
+            conditionBuilder.or(guestbook.writer.contains(keyword));
+        booleanBuilder.and(conditionBuilder);
+        return booleanBuilder;
+    }
 
     @Override
     public Long register(GuestbookDTO dto) {
@@ -33,8 +56,9 @@ public class GuestbookServiceImpl implements GuestbookService {
     public PageResultDTO<Guestbook, GuestbookDTO> getList(PageRequestDTO requestDTO) {
         log.info("getList");
         log.info(requestDTO);
+        var booleanBuilder = getSearch(requestDTO);
         var pageable = requestDTO.getPageable(Sort.by("gno").descending());
-        var result = repository.findAll(pageable);
+        var result = repository.findAll(booleanBuilder, pageable);
         Function<Guestbook, GuestbookDTO> fn = this::entityToDTO;
         return new PageResultDTO<>(result, fn);
     }
