@@ -46,6 +46,46 @@
           >
         </li>
       </ul>
+      <div class="modal" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Gno</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <p>[[${msg}]]</p>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button type="button" class="btn btn-primary">
+                Save changes
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script th:inline="javascript">
+        const msg=[[${msg}]]
+        console.log(msg);
+        if (msg) {
+          window.onload = () => {
+            const modal = new bootstrap.Modal(document.querySelector(".modal"));
+            modal.show();
+          };
+        }
+      </script>
     </th:block>
   </th:block>
 </html>
