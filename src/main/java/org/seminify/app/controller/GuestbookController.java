@@ -55,4 +55,13 @@ public class GuestbookController {
         var dto = service.read(gno);
         model.addAttribute("dto", dto);
     }
+
+    @PostMapping("remove")
+    public String remove(Long gno, RedirectAttributes redirectAttributes) {
+        log.info("remove");
+        log.info(gno);
+        service.remove(gno);
+        redirectAttributes.addFlashAttribute("msg", gno);
+        return "redirect:/guestbook/list";
+    }
 }
